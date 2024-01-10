@@ -1,0 +1,64 @@
+@startuml
+class TiendaMiguel {
+    - clientes: List<Cliente>
+    - productos: Producto[]
+    - empleados: Empleado[]
+    - turno: String
+    - ventas: Venta[]
+
+    + TiendaMiguel(clientes: Cliente, productos: Producto, empleados: Empleado, turno: String):TiendaMiguel
+    + registarVentas(producto: Producto, cliente: Cliente, empleado: Empleado): void
+    + reporteVentas(): double
+}
+
+
+class Cliente {
+    - nombreCliente: String
+    - presupuesto: double
+
+    + Cliente(nombre: String): Cliente
+    + comprarProducto(producto: Producto): boolean
+    + setPresupuesto(): void
+    + saldoDisponible(): double
+    + getNombreCliente(): String
+
+
+}
+
+
+class Producto {
+    - nombre: String
+    - precio: double
+    - proveedor: String
+
+    + Producto(nombre: String, precio: double, proveedor: String):Producto
+    + getPrecio(): double
+    + getNombre(): String
+}
+
+class Empleado {
+    - nombreEmpleado: String
+    - turno: String
+
+    + Empleado(nombreEmpleado: String, turno: String): Empleado
+    + registrarVenta(cliente:Cliente, producto: Producto): boolean
+    + getNombreEmpleado(): String
+}
+
+class Venta {
+    - producto: String
+    - precio: double
+    - vendedor: Empleado
+    - fechaHoraVenta: Date
+    - cliente: Cliente
+
+    + venta(producto: String, precio: double, vendedor: Empleado, fechaHoraVenta: Date, cliente: Cliente): Venta
+    + mostrarRegistroVenta(): String
+}
+
+TiendaMiguel *--> "*" Producto: -Productos
+TiendaMiguel o-up-> "*" Cliente: -Clientes
+TiendaMiguel o-up-> "*" Venta: -Ventas
+TiendaMiguel *--> "2" Empleado: -Empleados
+
+@enduml

@@ -1,0 +1,46 @@
+@startuml
+
+class Banco {
+    - servicios: Servicio
+}
+
+class Servicio {
+    - tarjetaDebito: TarjetaDebito
+    - tarjetaCredito: TarjetaCredito
+}
+
+class TarjetaDebito {
+    - nombreTitular: String
+    - numero: String
+    - fechaVencimiento: Date
+
+    + realizaTransaccion(cantidad: double, numeroCuenta: int):boolean
+
+
+}
+
+class Cuenta {
+    - nombreCliente: String
+    - numeroCuenta: String
+    - saldo: double
+    - tarjetaDebito: TarjetaDebito
+
+}
+
+
+class TarjetaCredito {
+    - nombreCliente: String
+    - lineaCredito: double
+    - interes: double
+    - maxCantidadCuotas: int
+
+    + pagarResumenTarjeta(importe: double, numeroCuenta: String): boolean
+
+}
+
+Banco *--> "*" Servicio: -servicios
+Servicio o--> "1" TarjetaDebito: -tarjetaDebito
+Servicio o--> "1" TarjetaCredito: -tarjetaCredito
+Cuenta *---> "1" TarjetaDebito: -tarjetaDebito
+
+@enduml

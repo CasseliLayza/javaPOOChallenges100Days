@@ -1,0 +1,44 @@
+@startuml
+
+class Cliente {
+    -nombre:String
+
+    +Cliente(nombre: String): Cliente
+    +notify(producto: String): void
+}
+
+interface Subscriptor {
+
+    + notify(String producto): void
+}
+
+class Tienda {
+    - nombreTienda: String
+    - productos: List<String>
+    - subscriptorSystem: SubscriptorSystem
+
+    + Tienda(nombreTienda: String): Tienda
+    + addProductos(productos: String): void
+    + suscribirCliente(cliente: Cliente, producto: String): void
+    + nuevoProducto(nuevoProducto: String): void
+    + desuscribirCliente(cliente: Cliente, producto: String): void
+}
+
+class SubscriptorSystem {
+    - name: String
+    - subscriptors: Map<String,List<Subscriptor>>
+
+    + SubscriptorSystem(): SubscriptorSystem
+    + addSubscriptor(subscriptor: Subscriptor, producto: String): void
+    + publishCliente(producto: String): void
+    + removeSubscriptor(subscriptor: Subscriptor, producto: String): void
+}
+
+
+Cliente "*"...|> Subscriptor
+Tienda *---> "1" SubscriptorSystem: -subscriptorSystem
+Tienda o---> "*" String: -productos
+SubscriptorSystem o---> "*" Subscriptor: -subscriptors
+
+
+@enduml

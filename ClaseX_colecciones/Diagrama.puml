@@ -1,0 +1,26 @@
+@startuml
+
+class Puerto{
+    - contenedores: Contenedor[]
+
+    +ingresarContenedor(contenedor: Contenedor): void
+    +ordenarContenedores(contenedores: Contenedor) Contenedor[]
+    +contarContPeligrosos(contenedores: Contenedor): int
+}
+
+class Contenedor{
+    - numero: int
+    - pais: String
+    - materialPeligros: boolean
+
+}
+
+interface Comparable{
+compareTo(contenedor: Cotenedor)
+
+}
+
+Puerto *---> "*" Contenedor: -contenedores
+Contenedor ..|> Comparable
+
+@enduml

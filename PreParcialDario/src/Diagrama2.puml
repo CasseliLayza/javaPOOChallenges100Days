@@ -1,0 +1,52 @@
+@startuml
+
+class Sistema {
+    - embarcaciones: Embarcacion
+
+    + calcularAlquiler(embarcacion: Embarcacion): double
+    + obtenerMasLujoso(unYate: Yate, otroYate:yate): Yate
+    + esGrande(unYate: Yate, otroYate:yate): Yate
+
+}
+
+class Embarcacion {
+    - preciobase: double
+    - valorAdicional: double
+    - anioFabricacion: int
+    - eslora: double
+    - capital: Capitan
+
+    + calcularAlquiler(): double
+}
+
+class Capitan {
+    - nombre: String
+    - apellido: String
+    - matricua: String
+
+    +Capitan(nombre: String, apellido:String, matricua:String):Capitan
+
+}
+
+class Velero {
+    - cantidadMastiles: int
+
+    + esGrande(): boolean
+
+}
+
+class Yate {
+    - cantidadCamarotes: int
+
+    + esMasLujosoQue(otroYate: Yate):boolean
+
+}
+
+Sistema *--> "*" Embarcacion: -embarcaciones
+Embarcacion o--> "1" Capitan: -capitan
+Yate -left-|> Embarcacion
+Velero -right-|> Embarcacion
+
+
+
+@enduml

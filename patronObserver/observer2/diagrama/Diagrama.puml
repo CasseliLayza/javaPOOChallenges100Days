@@ -1,0 +1,45 @@
+@startuml
+
+class Cliente {
+    - name: String
+
+    + Cliente(name: String): Cliente
+    + notify(String producto): void
+}
+
+interface Subscriptor {
+
+    + notify(producto: String): void
+}
+
+
+class Tienda {
+    -  storeName: String;
+    -  products:List <String>
+    -  publisherManager: PublisherManager
+
+    + Tienda(storeName: String, publisherName: String): Tienda
+    + subscribirCliente( cliente: Cliente,  product: String): void
+    +  newproduct(product: String): void
+    +  desubscribirCliente(cliente: Cliente, product: String): void
+
+}
+
+
+class PublisherManager {
+    - publisherName: String
+    - subscriptors: Map<String, List<Subscriptor>>
+
+   + PublisherManager(publisherName: String)
+   + addSubscriptor(cliente: Subscriptor, product: String): void
+   + publishCliente(product: String): void
+   + removeSubscriptor(cliente: Subscriptor, product: String): void
+
+}
+
+Cliente "*"...|> Subscriptor
+Tienda *--> "1" PublisherManager: -publisherManager
+PublisherManager o---> "*" Subscriptor: -subscriptors
+Tienda o---> "*" String: -products
+
+@enduml

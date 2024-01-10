@@ -1,0 +1,83 @@
+@startuml
+ abstract class OfertaAcademica implements Comparable {
+    - nombre: Strin:
+    - descripcion: String
+
+    + OfertaAcademica(nombre: String, descripcion: String): OfertaAcademica
+    + {abstract} double culcularPrecio():double
+    + getNombre(): String
+    + compareTo(o: OfertaAcademica): Int
+
+}
+
+class Curso extends OfertaAcademica {
+    -  horas: int
+    -  valorHora: double
+
+    + Curso(nombre: String, descripcion: String, horas:int, valorHora: double): Curso
+    +  culcularPrecio(): double
+}
+
+class Programaintesivo extends OfertaAcademica{
+    -  horas: int
+    -  valorHora: double
+    -  cursos: List<Curso
+
+    + Programaintesivo(nombre: String, descripcion: String, horas:int, valorHora: double, cursos: List<Curso>): Programaintesivo
+    +  culcularPrecio(): double
+    +  precioCursos(): double
+    +  getCursos(): List<Curso>
+}
+
+Programaintesivo *-left--> "*" Curso: -cursos
+
+class Instituto {
+    -  nombre: String
+    - ofertaAcademicas: List<OfertaAcademica>
+
+    + Instituto(String nombre): Instituto
+    + agregarOfertaAcademica(codigoOferta: String,nombre: String, descripcion: String, horas:int, valorHora: double, cursos: List<Curso>): void
+    + reporte(): void
+    + muestraReporteOfertas(): void
+    + muestraPrograma(programaintesivo: Programaintesivo): void
+    + muestrasCurso(ofertas: OfertaAcademica): void
+}
+
+Instituto *---> "*" OfertaAcademica: -ofertaAcademicas
+Instituto .right...> FabricaDeOfertasAcademicas
+
+class FabricaDeOfertasAcademicas {
+    - {static}  CODIGO_CURSO: String = "curso";
+    - {static} CODIGO_PROGRAMA_INTENSIVO: String = "programa";
+
+    + {static} crearOferta(codigoOferta: String,nombre: String, descripcion: String, horas:int, valorHora: double, cursos: List<Curso>): OfertaAcademica
+
+}
+
+class MyExceptionFailNewOffer extends Exception {
+    + MyExceptionFailNewOffer() {
+    + MyExceptionFailNewOffer(message: String) {
+}
+
+
+
+
+FabricaDeOfertasAcademicas ...> Curso
+FabricaDeOfertasAcademicas ..left.> Programaintesivo
+FabricaDeOfertasAcademicas ...> MyExceptionFailNewOffer
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml

@@ -1,0 +1,44 @@
+@startuml
+class Cliente  implements  Subscriptor{
+     - clienteName: String
+
+    + Cliente(String clienteName)
+    + notificar(String product): void
+}
+
+interface Subscriptor {
+
+  + {abstract}notificar(String product): void
+}
+
+class Tienda {
+    -  storeName: String
+    - products: List<String>
+    -  publicador: Publicador
+
+    + Tienda(storeName: String): Tienda
+    + registarCliente(cliente: Cliente, product: String): void
+    + desregistarCliente(client; Cliente, product: String):void
+    + nuevoProducto(producto: String): void
+}
+
+
+class Publicador {
+    -  subscriptores: Map<String, List<Subscriptor>>
+
+    + Publicador(): Publicador
+    +  addSubscriptor(cliente: Subscriptor, product: String): void
+    +  removeSubscriptor(cliente: Subscriptor, product: String): void
+    +  publicar(producto: String): void
+}
+
+Tienda o---> "*" String: -products
+Tienda *---> "1" Publicador: -publicador
+Publicador o---> Subscriptor: -subscriptores
+
+
+
+
+
+
+@enduml

@@ -1,0 +1,51 @@
+@startuml
+
+class Paciente {
+    - numeroDeDocumento: String
+    - nombre: String
+    - edad: int
+    - nombreDeObraSocial: String
+    - esParticular: boolean
+    - medicoEspecialista: MedicoEspecialista
+    - estudios: int
+    - fueOperado: boolean
+    - estaDeInternado: boolean
+}
+
+abstract class MedicoEspecialista {
+    - numeroMatricula: String
+    - nombre: String
+    - sueldoBasico: double
+
+    + {abstract} calcularSalario()
+}
+
+class Cardiologo {
+    - importePorEstudio: double
+
+    + calcularSalario()
+}
+
+class MedicoGeneral  {
+    + calcularSalario()
+}
+
+class Dermatologo  {
+    - premioPorMedicamentos: double
+
+    + calcularSalario()
+}
+
+class Cirujano  {
+    - sueldoDeUnAyudante: double
+
+    + calcularSalario()
+}
+
+Paciente *--> MedicoEspecialista: - medicoEspecialista
+MedicoEspecialista <|-- Cardiologo
+MedicoEspecialista <|-- MedicoGeneral
+MedicoEspecialista <|-- Cirujano
+MedicoEspecialista <|-- Dermatologo
+
+@enduml

@@ -1,0 +1,59 @@
+@startuml
+
+class Instituto {
+  - nombre: String
+  - ofertasAcademicas: OfertaAcademica
+  + Instituto(nombre: String):
+  + agregarOfertaAcademica(tipo: String, nombre: String, descripcion: String, cargaHorariaMensual: int, valorHora: double, cursos: List<Curso>): void
+  + reporte(): void
+}
+
+abstract class OfertaAcademica {
+  - nombre: String
+  - descripcion: String
+  + OfertaAcademica(nombre: String, descripcion: String):
+  + {abstract} calcularPrecio(): double
+  + getNombre(): String
+}
+
+class Curso {
+  - cargaHorariaMensual: int
+  - valorHora: double
+  + Curso(nombre: String, descripcion: String, cargaHorariaMensual: int, valorHora: double):
+  + compareTo(o: OfertaAcademica): int
+  + calcularPrecio(): double
+  + toString(): String
+}
+
+class ErrorEnCreacionDeOfertaAcademica {
+  ErrorEnCreacionDeOfertaAcademica():
+}
+
+class FabricaDeOfertasAcademicas {
+  + FabricaDeOfertasAcademicas():
+  + crear(String, String, String, int, double, List<Curso>): OfertaAcademica
+}
+
+class ProgramaIntensivo {
+  + ProgramaIntensivo(String, String, int, double, List<Curso>): 
+  + calcularPrecio(): double
+  + toString(): String
+  + compareTo(OfertaAcademica): int
+  - calcularPrecioTotalDeCursos(): double
+  - mostrarCursos(): String
+  - calcularPrecioDelPrograma(): double
+}
+
+interface Comparable
+
+Instituto *-up-> "*" OfertaAcademica: -ofertasAcademicas
+Curso --|> OfertaAcademica
+ProgramaIntensivo -up-|> OfertaAcademica
+Curso .up.|> Comparable
+ProgramaIntensivo .left.|> Comparable
+ProgramaIntensivo *--> "*" Curso : -cursos
+FabricaDeOfertasAcademicas .up.> Curso
+FabricaDeOfertasAcademicas .left.> ProgramaIntensivo
+FabricaDeOfertasAcademicas .down.> ErrorEnCreacionDeOfertaAcademica
+ErrorEnCreacionDeOfertaAcademica -down-|> Expection
+@enduml

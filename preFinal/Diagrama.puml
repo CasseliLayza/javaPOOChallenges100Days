@@ -1,0 +1,59 @@
+@startuml
+class Instituto {
+    - String nombre;
+    - List<OfertaAcademica> ofertaAcademicas;
+
+    + Instituto(String nombre): Instituto
+    + agregarOfertaAcademica(codigo: String, nombre: String, decripcion: String, cantidadhoras: int, valorhora: double, cursos: List<Curso>): void
+    + informe(): void
+    + mostrarIforme(): void
+    + mostrarPaqueteDetail(programaIntensivo: ProgramaIntensivo ): void
+    + mostrarCurso(ofertaAcademica: OfertaAcademica ): void
+}
+
+abstract class  OfertaAcademica implements Comparable {
+    - nombre: String
+    - descripcion: String
+
+      + OfertaAcademica(nombre: String, descripcion: String): OfertaAcademica
+      + {abstract} double calcularPrecio()
+      + compareTo(OfertaAcademica o): int
+      + getNombre(): String
+}
+
+class Curso {
+    -  cantidadHoras: int
+    -  valorHora: double
+
+    + Curso(nombre: String, descripcion: String, cantidadHoras: int, valorHora: double): Curso
+    + calcularPrecio(): double
+}
+
+class ProgramaIntensivo {
+        -  cantidadHoras: int
+        -  valorHora: double
+        -  cursos: List<Curso>
+
+        +ProgramaIntensivo( nombre: String,  descripcion: String,  cantidadHoras: int,  valorHora: double,  cursos: List<Curso>): ProgramaIntensivo
+        + agregarCurso(curso: Curso): void
+        + calcularPrecio(): double
+        + calcularPreciototalDeCursos(): double
+        + getCursos(): List<Curso>
+}
+
+class FabricaDeOfertasAcademicas {
+    - {static}  CODIGO_CURSO: String = "curso"
+    - {static}  CODIGO_PROGRAMA_INTENSIVO: String = "programa"
+
+    + static  crear(codigo: String, nombre: String, decripcion: String, cantidadhoras: int, alorhora: double, cursos: List<Curso>): OfertaAcademica
+
+}
+
+FabricaDeOfertasAcademicas ...> MyExceptionCrearCursoError
+MyExceptionCrearCursoError ---|> Exception
+Instituto .....> FabricaDeOfertasAcademicas
+Instituto *---> "*" OfertaAcademica: -ofertasAcademicas
+ProgramaIntensivo *---> "*" Curso: -cursos
+OfertaAcademica <|---  Curso
+OfertaAcademica <|---  ProgramaIntensivo
+@enduml
